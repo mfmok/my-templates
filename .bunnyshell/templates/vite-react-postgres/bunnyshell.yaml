@@ -45,12 +45,12 @@ components:
     -
         kind: Application
         name: app
-        gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: react-books-app/v0.5.0
-        gitApplicationPath: components/react-books-app
+        gitRepo: 'https://github.com/mfmok/my-templates.git'
+        gitBranch: main
+        gitApplicationPath: components/material-tailwind-dashboard-react
         dockerCompose:
             build:
-                context: ./components/react-books-app
+                context: ./components/material-tailwind-dashboard-react
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
