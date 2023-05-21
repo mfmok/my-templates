@@ -9,6 +9,6 @@ services:
     environment:
       REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:9091}
     volumes:
-      - ./../:/var/www/frontend:delegated
+      - ./../:/usr/src/app
     ports:
       - "8080:8080"

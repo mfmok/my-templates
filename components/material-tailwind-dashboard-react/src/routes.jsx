@@ -5,6 +5,8 @@ import {
   BellIcon,
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
+  BookOpenIcon,
+  DocumentPlusIcon,
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
@@ -56,6 +58,24 @@ export const routes = [
       {
         icon: <UserPlusIcon {...icon} />,
         name: "sign up",
+        path: "/sign-up",
+        element: <SignUp />,
+      },
+    ],
+  },
+  {
+    title: "book app",
+    layout: "auth",
+    pages: [
+      {
+        icon: <BookOpenIcon {...icon} />,
+        name: "Books",
+        path: "/sign-in",
+        element: <SignIn />,
+      },
+      {
+        icon: <DocumentPlusIcon {...icon} />,
+        name: "add book",
         path: "/sign-up",
         element: <SignUp />,
       },
