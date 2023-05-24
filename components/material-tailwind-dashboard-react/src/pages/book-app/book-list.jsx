@@ -9,10 +9,73 @@ import {
   Progress,
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
+import { authorsTableData } from "@/data";
 
-export function Books() {
+import React, { useState, useEffect } from "react";
+import BookDataService from "../../services/book.service";
+
+export function BookList() {
+  const [books, setBooks] = useState([]);
+  const [currentBook, setCurrentBook] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [searchTitle, setSearchTitle] = useState("");
+  
+  useEffect(() => {
+    retrieveBooks();
+  }, []);
+
+  const retrieveBooks = () => {
+    BookDataService.getAll()
+      .then((response) => {
+        setBooks(response.data);
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  const refreshList = () => {
+    this.retrieveBooks();
+    setCurrentBook(null);
+    setCurrentIndex(-1);
+  }
+
+  const setActiveBook = (book, index) => {
+    setCurrentBook(book);
+    setCurrentIndex(index);
+  }
+
+  const removeAllBooks = () => {
+    BookDataService.deleteAll()
+      .then((response) => {
+        console.log(response.data);
+        toast.success("All books removed!");
+        this.refreshList();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  const searchByTitle = () => {
+    setCurrentBook(null);
+    setCurrentIndex(-1);
+
+    BookDataService.findByTitle(this.state.searchTitle)
+      .then((response) => {
+        this.setState({
+          books: response.data,
+        });
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   return (
+    <>
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
@@ -24,7 +87,7 @@ export function Books() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
-                {["author", "function", "status", "employed", ""].map((el) => (
+                {["title", "description", "availability", ""].map((el) => (
                   <th
                     key={el}
                     className="border-b border-blue-gray-50 py-3 px-5 text-left"
@@ -69,10 +132,7 @@ export function Books() {
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {job[0]}
-                        </Typography>
-                        <Typography className="text-xs font-normal text-blue-gray-500">
-                          {job[1]}
+                          {date}
                         </Typography>
                       </td>
                       <td className={className}>
@@ -82,11 +142,6 @@ export function Books() {
                           value={online ? "online" : "offline"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
-                      </td>
-                      <td className={className}>
-                        <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
-                        </Typography>
                       </td>
                       <td className={className}>
                         <Typography
@@ -106,7 +161,9 @@ export function Books() {
         </CardBody>
       </Card>
     </div>
+
+    </>
   );
 }
 
-export default Books;
+export default BookList;

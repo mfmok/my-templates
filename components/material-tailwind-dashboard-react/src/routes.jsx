@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
-import { Books, AddBook } from "@/pages/book-app";
+import { BookList, AddBook } from "@/pages/book-app";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -72,7 +72,7 @@ export const routes = [
         icon: <BookOpenIcon {...icon} />,
         name: "Books",
         path: "/books",
-        element: <Books />,
+        element: <BookList />,
       },
       {
         icon: <DocumentPlusIcon {...icon} />,
