@@ -7,12 +7,16 @@ import {
   Chip,
   Tooltip,
   Progress,
+  Button,
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData } from "@/data";
 
 import React, { useState, useEffect } from "react";
 import BookDataService from "../../services/book.service";
+import { Link } from "react-router-dom";
+
+import cover from "../../assets/not-available.png";
 
 export function BookList() {
   const [books, setBooks] = useState([]);
@@ -64,9 +68,7 @@ export function BookList() {
 
     BookDataService.findByTitle(this.state.searchTitle)
       .then((response) => {
-        this.setState({
-          books: response.data,
-        });
+        setBooks(response.data);
         console.log(response.data);
       })
       .catch((e) => {
@@ -76,6 +78,7 @@ export function BookList() {
 
   return (
     <>
+    { books.length > 0 ? (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
         <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
@@ -103,8 +106,8 @@ export function BookList() {
               </tr>
             </thead>
             <tbody>
-              {authorsTableData.map(
-                ({ img, name, email, job, online, date }, key) => {
+              {books.map(
+                ({ title, description, available }, key) => {
                   const className = `py-3 px-5 ${
                     key === authorsTableData.length - 1
                       ? ""
@@ -115,31 +118,28 @@ export function BookList() {
                     <tr key={name}>
                       <td className={className}>
                         <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
+                          <Avatar src={cover} alt={title} size="sm" />
                           <div>
                             <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-semibold"
                             >
-                              {name}
-                            </Typography>
-                            <Typography className="text-xs font-normal text-blue-gray-500">
-                              {email}
+                              {title}
                             </Typography>
                           </div>
                         </div>
                       </td>
                       <td className={className}>
                         <Typography className="text-xs font-semibold text-blue-gray-600">
-                          {date}
+                          {description}
                         </Typography>
                       </td>
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={online ? "green" : "blue-gray"}
-                          value={online ? "online" : "offline"}
+                          color={available ? "green" : "blue-gray"}
+                          value={available ? "available" : "lent"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
                       </td>
@@ -161,8 +161,23 @@ export function BookList() {
         </CardBody>
       </Card>
     </div>
-
-    </>
+  ) : ( "" ) }
+    <div className="flex justify-center gap-2">
+    <div className="flex w-max gap-4 mb-10" >
+      <Link to={"/book-app/add-book"}>
+        <Button variant="gradient">
+          add book
+        </Button>
+      </Link>
+      { books.length > 0 ? (
+      <Button color="red" variant="gradient" onClick={removeAllBooks}>
+        remove all books
+      </Button>
+      ) : ("")
+      }
+    </div>
+    </div>
+  </>
   );
 }
 

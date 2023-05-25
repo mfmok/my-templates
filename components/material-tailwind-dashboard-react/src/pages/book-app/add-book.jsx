@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import BookDataService from "../../services/book.service";
 import { Link } from "react-router-dom";
 import {
   Typography,
@@ -14,6 +15,47 @@ import {
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export function AddBook() {
+  const initialBookState = {
+    id: null,
+    title: "",
+    description: "",
+    availability: false
+  };
+  const [book, setBook] = useState(initialBookState);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setBook({ ...book, [name]: value });
+  };
+
+  const saveBook = () => {
+    var data = {
+      title: book.title,
+      description: book.description
+    };
+
+    BookDataService.create(data)
+      .then(response => {
+        setBook({
+          id: response.data.id,
+          title: response.data.title,
+          description: response.data.description,
+          availability: response.data.availability
+        });
+        setSubmitted(true);
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const newBook = () => {
+    setBook(initialBookState);
+    setSubmitted(false);
+  };
+
   const [showAlerts, setShowAlerts] = React.useState({
     blue: true,
     green: true,
@@ -41,11 +83,11 @@ export function AddBook() {
             </Typography>
           </CardHeader>
           <CardBody className="mb-4 flex flex-col gap-4">
-            <Input label="Title" size="lg" />
-            <Input label="Description" size="lg" />
+            <Input id="title" label="Title" name="title" size="lg" onChange={handleInputChange} required />
+            <Input id="description" label="Description" name="description" size="lg" onChange={handleInputChange} />
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
+            <Button variant="gradient" onClick={saveBook} fullWidth>
               Add
             </Button>
           </CardFooter>
