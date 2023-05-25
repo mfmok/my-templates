@@ -15,6 +15,7 @@ import BookDataService from "../../services/book.service";
 import { Link } from "react-router-dom";
 
 import cover from "../../assets/not-available.png";
+import nobooks from "../../assets/nobooks.png";
 
 export function BookList() {
   const [books, setBooks] = useState([]);
@@ -38,7 +39,7 @@ export function BookList() {
   }
 
   const refreshList = () => {
-    this.retrieveBooks();
+    retrieveBooks();
     setCurrentBook(null);
     setCurrentIndex(-1);
   }
@@ -52,8 +53,7 @@ export function BookList() {
     BookDataService.deleteAll()
       .then((response) => {
         console.log(response.data);
-        toast.success("All books removed!");
-        this.refreshList();
+        refreshList();
       })
       .catch((e) => {
         console.log(e);
@@ -159,24 +159,28 @@ export function BookList() {
         </CardBody>
       </Card>
     </div>
-  ) : ( "" ) }
-    <div className="flex justify-center gap-2">
-    <div className="flex w-max gap-4 mb-10" >
-      <Link to={"/book-app/add-book"}>
-        <Button variant="gradient">
-          add book
-        </Button>
-      </Link>
-      { books.length > 0 ? (
-      <Button color="red" variant="gradient" onClick={removeAllBooks}>
-        remove all books
+  ) : ( 
+    <div className="flex justify-center">
+    <img src={nobooks} alt="No books" className="w-3/12 mt-12 mb-8" />
+    </div>
+  ) }
+  <div className="flex justify-center gap-2">
+  <div className="flex w-max gap-4 mb-10" >
+    <Link to={"/book-app/add-book"}>
+      <Button variant="gradient">
+        add book
       </Button>
-      ) : ("")
-      }
-    </div>
-    </div>
+    </Link>
+    { books.length > 0 ? (
+    <Button color="red" variant="gradient" onClick={removeAllBooks}>
+      remove all books
+    </Button>
+    ) : ("")
+    }
+  </div>
+  </div>
   </>
-  );
+  );  // return
 }
 
 export default BookList;

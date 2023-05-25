@@ -77,7 +77,7 @@ export function AddBook() {
             </CardBody>
             <CardFooter className="pt-0">
               <Button variant="gradient" onClick={newBook} fullWidth>
-                add book
+                add another book
               </Button>
             </CardFooter>
             </>
