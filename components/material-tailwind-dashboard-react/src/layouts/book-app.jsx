@@ -10,6 +10,8 @@ import {
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 
+import { BookList, AddBook, Book } from "@/pages/book-app";
+
 export function BookApp() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
@@ -42,6 +44,7 @@ export function BookApp() {
                 <Route exact path={path} element={element} />
               ))
           )}
+          <Route exact path="/book/:id" element={<Book />} />
         </Routes>
         <div className="text-blue-gray-600">
           <Footer />

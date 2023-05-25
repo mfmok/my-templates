@@ -12,14 +12,13 @@ import {
   Checkbox,
   Button,
 } from "@material-tailwind/react";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export function AddBook() {
   const initialBookState = {
     id: null,
     title: "",
     description: "",
-    availability: false
+    available: false
   };
   const [book, setBook] = useState(initialBookState);
   const [submitted, setSubmitted] = useState(false);
@@ -56,19 +55,6 @@ export function AddBook() {
     setSubmitted(false);
   };
 
-  const [showAlerts, setShowAlerts] = React.useState({
-    blue: true,
-    green: true,
-    orange: true,
-    red: true,
-  });
-  const [showAlertsWithIcon, setShowAlertsWithIcon] = React.useState({
-    blue: true,
-    green: true,
-    orange: true,
-    red: true,
-  });
-  const alerts = ["blue", "green", "orange", "red"];
 
   return (
     <div className="mx-auto my-40 flex max-w-screen-lg flex-col gap-8">
@@ -82,16 +68,33 @@ export function AddBook() {
               Add Book
             </Typography>
           </CardHeader>
-          <CardBody className="mb-4 flex flex-col gap-4">
-            <Input id="title" label="Title" name="title" size="lg" onChange={handleInputChange} required />
-            <Input id="description" label="Description" name="description" size="lg" onChange={handleInputChange} />
-          </CardBody>
-          <CardFooter className="pt-0">
-            <Button variant="gradient" onClick={saveBook} fullWidth>
-              Add
-            </Button>
-          </CardFooter>
-        </Card>
+          { submitted ? (
+            <>
+            <CardBody className="mb-4 flex flex-col gap-4">
+              <Typography variant="h5" className="text-center">
+                You submitted successfully!
+              </Typography>
+            </CardBody>
+            <CardFooter className="pt-0">
+              <Button variant="gradient" onClick={newBook} fullWidth>
+                add book
+              </Button>
+            </CardFooter>
+            </>
+          ) : (
+            <>
+            <CardBody className="mb-4 flex flex-col gap-4">
+              <Input id="title" label="Title" name="title" size="lg" onChange={handleInputChange} required />
+              <Input id="description" label="Description" name="description" size="lg" onChange={handleInputChange} />
+            </CardBody>
+            <CardFooter className="pt-0">
+              <Button variant="gradient" onClick={saveBook} fullWidth>
+                Add
+              </Button>
+            </CardFooter>
+            </>
+          ) }
+          </Card>
     </div>
   );
 }

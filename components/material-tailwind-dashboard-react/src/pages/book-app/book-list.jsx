@@ -9,8 +9,6 @@ import {
   Progress,
   Button,
 } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData } from "@/data";
 
 import React, { useState, useEffect } from "react";
 import BookDataService from "../../services/book.service";
@@ -107,15 +105,15 @@ export function BookList() {
             </thead>
             <tbody>
               {books.map(
-                ({ title, description, available }, key) => {
+                ({ id, title, description, available }, key) => {
                   const className = `py-3 px-5 ${
-                    key === authorsTableData.length - 1
+                    key === books.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
                   }`;
 
                   return (
-                    <tr key={name}>
+                    <tr key={title}>
                       <td className={className}>
                         <div className="flex items-center gap-4">
                           <Avatar src={cover} alt={title} size="sm" />
@@ -138,7 +136,7 @@ export function BookList() {
                       <td className={className}>
                         <Chip
                           variant="gradient"
-                          color={available ? "green" : "blue-gray"}
+                          color={available ? "green" : "orange"}
                           value={available ? "available" : "lent"}
                           className="py-0.5 px-2 text-[11px] font-medium"
                         />
@@ -146,7 +144,7 @@ export function BookList() {
                       <td className={className}>
                         <Typography
                           as="a"
-                          href="#"
+                          href={ "/book-app/book/" + id }
                           className="text-xs font-semibold text-blue-gray-600"
                         >
                           Edit
