@@ -54,7 +54,7 @@ components:
                 dockerfile: .docker/Dockerfile
                 target: dev
             environment:
-                REACT_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
+                VITE_APP_BASE_API: 'https://{{ components.api.ingress.hosts[0] }}'
             ports:
                 - '8080:8080'
         hosts:
