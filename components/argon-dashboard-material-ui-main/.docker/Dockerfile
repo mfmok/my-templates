@@ -1,6 +1,10 @@
 # dev stage
 FROM node:16-alpine as dev
 
+ARG MAX_OLD_SPACE_SIZE=1024
+ARG NPM_TOKEN
+ENV NODE_OPTIONS=--max-old-space-size=${MAX_OLD_SPACE_SIZE}
+
 ENV NODE_ENV development
 
 ARG REACT_APP_BASE_API
@@ -14,14 +18,17 @@ WORKDIR /usr/src/app/
 COPY package*.json ./
 
 # - install packages (optimise image build - run just install after copying package.json, we hope these will change rarer as the code, so we can reuse this image layer too)
-RUN npm ci
+RUN npm ci --legacy-peer-deps
+
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
 
 # - copy the rest of the code (except the ones in .dockerignore) (optimise image build - we expect these to change everytime, so keep this as late as possible)
 COPY . .
 
+
 EXPOSE 8080
 
-CMD ["npm", "run", "dev", "--", "--port", "8080","--host"]
+CMD ["npm", "run", "start"]
 
 # prod (and build) stages
 FROM dev AS build

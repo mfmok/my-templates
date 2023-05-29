@@ -7,9 +7,10 @@ services:
       dockerfile: .docker/Dockerfile
       target: ${FRONTEND_BUILD_TARGET:-dev} # use "prod" for production
     environment:
-      VITE_APP_BASE_API: ${BACKEND_URL:-http://localhost:3080}
+      REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:3080}
     volumes:
       - ./../:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "8080:8080"
   db:
