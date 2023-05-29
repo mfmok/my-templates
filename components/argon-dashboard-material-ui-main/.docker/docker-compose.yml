@@ -1,0 +1,42 @@
+version: "3"
+services:
+  app:
+    container_name: argon-books-app
+    build:
+      context: ./../
+      dockerfile: .docker/Dockerfile
+      target: ${FRONTEND_BUILD_TARGET:-dev} # use "prod" for production
+    environment:
+      VITE_APP_BASE_API: ${BACKEND_URL:-http://localhost:3080}
+    volumes:
+      - ./../:/usr/src/app
+    ports:
+      - "8080:8080"
+  db:
+    container_name: argon-books-db
+    image: postgres
+    restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=bunny_books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=need-to-replace
+    expose:
+      - 5432
+  api:
+    container_name: argon-books-api
+    build: https://github.com/my-devpost/demo-books.git#master:backend
+    environment:
+      - POSTGRES_HOST=db # name of the "db" service
+      - POSTGRES_DB=bunny_books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=need-to-replace
+      - FRONTEND_URL=${FRONTEND_URL-http://books.local.bunnyshell.com:8080}
+    ports:
+      - "3080:3080"
+    depends_on:
+      - db
+volumes:
+  db-data:
