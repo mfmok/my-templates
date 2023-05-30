@@ -4,7 +4,7 @@ services:
     container_name: argon-books-app
     build:
       context: ./../
-      dockerfile: .docker/Dockerfile
+      dockerfile: .docker/Dockerfile.local
       target: ${FRONTEND_BUILD_TARGET:-dev} # use "prod" for production
     environment:
       REACT_APP_BASE_API: ${BACKEND_URL:-http://localhost:3080}

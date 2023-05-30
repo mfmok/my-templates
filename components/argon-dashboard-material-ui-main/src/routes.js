@@ -116,6 +116,23 @@ const routes = [
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-collection" />,
     component: <SignUp />,
   },
+  { type: "title", title: "Book App", key: "book-pages" },
+  {
+    type: "route",
+    name: "books",
+    key: "books",
+    route: "/book-app/books",
+    icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-books" />,
+    component: <Profile />,
+  },
+  {
+    type: "route",
+    name: "add-book",
+    key: "add-book",
+    route: "/book-app/add-book",
+    icon: <ArgonBox component="i" color="warning" fontSize="14px" className="ni ni-book-bookmark" />,
+    component: <Profile />,
+  },  
 ];
 
 export default routes;
