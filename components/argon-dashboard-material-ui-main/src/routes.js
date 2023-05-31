@@ -43,6 +43,7 @@ import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import BookList from "layouts/book-app/book-list";
+import AddBook from "layouts/book-app/add-book";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -132,7 +133,7 @@ const routes = [
     key: "add-book",
     route: "/book-app/add-book",
     icon: <ArgonBox component="i" color="warning" fontSize="14px" className="ni ni-book-bookmark" />,
-    component: <Profile />,
+    component: <AddBook />,
   },  
 ];
 

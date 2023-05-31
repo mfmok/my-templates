@@ -18,6 +18,7 @@ import BookDataService from "../../../services/book.service";
 
 // @mui material components
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -25,6 +26,10 @@ import ArgonTypography from "components/ArgonTypography";
 import ArgonButton from "components/ArgonButton";
 import ArgonAvatar from "components/ArgonAvatar";
 import CardMedia from "@mui/material/CardMedia";
+import ArgonInput from "components/ArgonInput";
+
+// Authentication layout components
+import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
 
 // Argon Dashboard 2 MUI examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -41,7 +46,7 @@ import booksTableData from "layouts/book-app/book-list/data/booksTableData";
 
 import nobooks from "../../../assets/images/nobooks.png";
 
-function BookList() {
+function AddBook() {
   const { columns, rows } = booksTableData;
 
   const [books, setBooks] = useState([]);
@@ -104,54 +109,82 @@ function BookList() {
     <DashboardLayout>
       <DashboardNavbar />
 
-      { books.length > 0 ? (
-      <ArgonBox py={3}>
-        <ArgonBox>
-          <Card>
-            <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <ArgonTypography variant="h6">Book table</ArgonTypography>
-            </ArgonBox>
-            <ArgonBox
-              sx={{
-                "& .MuiTableRow-root:not(:last-child)": {
-                  "& td": {
-                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                      `${borderWidth[1]} solid ${borderColor}`,
-                  },
-                },
-              }}
+      <Card >
+        <ArgonBox mt={3} textAlign="center">
+          <ArgonTypography variant="button" color="text" fontWeight="bold">
+	    Add Book
+          </ArgonTypography>
+        </ArgonBox>
+      <ArgonBox mt={5} mb={3} display="flex" justifyContent="center">
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} xl={4}>
+      <ArgonBox component="form" role="form">
+        <ArgonBox mb={2}>
+          <ArgonInput name="title" id="title" placeholder="Title" size="large" />
+        </ArgonBox>
+        <ArgonBox mb={2}>
+          <ArgonInput name="description" id="description" placeholder="Description" size="large" />
+        </ArgonBox>
+        <ArgonBox mt={4} mb={1}>
+          <ArgonButton color="info" size="large" fullWidth>
+            Add
+          </ArgonButton>
+        </ArgonBox>
+        <ArgonBox mt={3} textAlign="center">
+          <ArgonTypography variant="button" color="text" fontWeight="regular">
+            Don&apos;t have an account?{" "}
+            <ArgonTypography
+              component={Link}
+              to="/authentication/sign-up"
+              variant="button"
+              color="info"
+              fontWeight="medium"
             >
-              <Book columns={columns} rows={rows} />
-            </ArgonBox>
-          </Card>
+              Add
+            </ArgonTypography>
+          </ArgonTypography>
         </ArgonBox>
       </ArgonBox>
-      ) : (
-	      <Card>
-            <ArgonBox display="flex" justifyContent="center" >
-	        <CardMedia src={nobooks} component="img" title="No books" sx={{ maxWidth: "30%" }} />
-	    </ArgonBox>
-	      </Card>
-      )
-      }
-
-      <ArgonBox display="flex" justifyContent="center" mt={3} mb={8}>
-        <Link to={"/book-app/add-book"}>
-        <ArgonButton color="info" size="large">
-          Add Book
-        </ArgonButton>&nbsp;&nbsp;
-        </Link>
-	{ books.length > 0 ? (
-        <ArgonButton color="error" size="large" onClick={removeAllBooks} >
-          Remove All Book
-        </ArgonButton>
-	) : ("")
-	}
+          </Grid>
+	</Grid>
       </ArgonBox>
+      </Card>
+
+	  <Card>
+	  <ArgonBox>
+      <ArgonBox component="form" role="form">
+        <ArgonBox mb={2}>
+          <ArgonInput name="title" id="title" placeholder="Title" size="large" />
+        </ArgonBox>
+        <ArgonBox mb={2}>
+          <ArgonInput name="description" id="description" placeholder="Description" size="large" />
+        </ArgonBox>
+        <ArgonBox mt={4} mb={1}>
+          <ArgonButton color="info" size="large" fullWidth>
+            Add
+          </ArgonButton>
+        </ArgonBox>
+        <ArgonBox mt={3} textAlign="center">
+          <ArgonTypography variant="button" color="text" fontWeight="regular">
+            Don&apos;t have an account?{" "}
+            <ArgonTypography
+              component={Link}
+              to="/authentication/sign-up"
+              variant="button"
+              color="info"
+              fontWeight="medium"
+            >
+              Add
+            </ArgonTypography>
+          </ArgonTypography>
+        </ArgonBox>
+      </ArgonBox>
+	  </ArgonBox>
+	  </Card>
 
       <Footer />
     </DashboardLayout>
   );
 }
 
-export default BookList;
+export default AddBook;
