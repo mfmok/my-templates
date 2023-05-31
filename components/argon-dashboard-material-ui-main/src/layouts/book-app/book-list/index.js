@@ -137,7 +137,7 @@ function BookList() {
 
       <ArgonBox display="flex" justifyContent="center" mt={3} mb={8}>
         <Link to={"/book-app/add-book"}>
-        <ArgonButton color="info" size="large">
+        <ArgonButton color="info" size="medium">
           Add Book
         </ArgonButton>&nbsp;&nbsp;
         </Link>

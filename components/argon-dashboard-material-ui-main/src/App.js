@@ -44,6 +44,8 @@ import createCache from "@emotion/cache";
 // Argon Dashboard 2 MUI routes
 import routes from "routes";
 
+import BookItem from "layouts/book-app/book-item";
+
 // Argon Dashboard 2 MUI contexts
 import { useArgonController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -185,6 +187,7 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
+        <Route exact path="/book-app/book-item/:id" element={<BookItem />} key="book" />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>
