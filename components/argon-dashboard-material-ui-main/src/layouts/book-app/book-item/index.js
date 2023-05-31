@@ -20,6 +20,7 @@ import BookDataService from "../../../services/book.service";
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+import ArgonAlert from "components/ArgonAlert";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -136,19 +137,19 @@ function BookItem(props) {
           <Grid item xs={12} md={6} >
       <ArgonBox component="form" role="form">
         <ArgonBox mb={2}>
-          <ArgonInput name="title" id="title" placeholder="Title" value={currentBook.title} size="large" />
+          <ArgonInput name="title" id="title" placeholder="Title" value={currentBook.title} onChange={handleInputChange} size="large" />
         </ArgonBox>
         <ArgonBox mb={2}>
-          <ArgonInput name="description" id="description" placeholder="Description" value={currentBook.description} size="large" />
+          <ArgonInput name="description" id="description" placeholder="Description" value={currentBook.description} onChange={handleInputChange} size="large" />
         </ArgonBox>
         <ArgonBox mb={2}>
           <ArgonInput name="available" id="available" placeholder="Availability" value={currentBook.available} size="large" readOnly />
         </ArgonBox>
         <ArgonBox mt={4} mb={10} justifyContent="center" display="flex" >
-          <ArgonButton color="success" size="medium" >
+          <ArgonButton color="success" size="medium" onClick={updateBook}>
             Update
           </ArgonButton>&nbsp;&nbsp;
-          <ArgonButton color="error" size="medium" >
+          <ArgonButton color="error" size="medium" onClick={deleteBook}>
             Delete
           </ArgonButton>&nbsp;&nbsp;
 	  { currentBook.available ? (

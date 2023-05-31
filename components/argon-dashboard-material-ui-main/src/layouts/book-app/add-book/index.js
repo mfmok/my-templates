@@ -36,7 +36,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Tables/Table";
-import Book from "examples/Books/Book";
+import Books from "examples/Books";
 
 import { Link } from "react-router-dom";
 
@@ -47,63 +47,47 @@ import booksTableData from "layouts/book-app/book-list/data/booksTableData";
 import nobooks from "../../../assets/images/nobooks.png";
 
 function AddBook() {
-  const { columns, rows } = booksTableData;
 
-  const [books, setBooks] = useState([]);
-  const [currentBook, setCurrentBook] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(-1);
-  const [searchTitle, setSearchTitle] = useState("");
-  
-  useEffect(() => {
-    retrieveBooks();
-  }, []);
+  const initialBookState = {
+    id: null,
+    title: "",
+    description: "",
+    available: false
+  };
+  const [book, setBook] = useState(initialBookState);
+  const [submitted, setSubmitted] = useState(false);
 
-  const retrieveBooks = () => {
-    BookDataService.getAll()
-      .then((response) => {
-        setBooks(response.data);
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setBook({ ...book, [name]: value });
+  };
+
+  const saveBook = () => {
+    var data = {
+      title: book.title,
+      description: book.description
+    };
+
+    BookDataService.create(data)
+      .then(response => {
+        setBook({
+          id: response.data.id,
+          title: response.data.title,
+          description: response.data.description,
+          availability: response.data.availability
+        });
+        setSubmitted(true);
         console.log(response.data);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
-  }
+  };
 
-  const refreshList = () => {
-    retrieveBooks();
-    setCurrentBook(null);
-    setCurrentIndex(-1);
-  }
-
-  const setActiveBook = (book, index) => {
-    setCurrentBook(book);
-    setCurrentIndex(index);
-  }
-
-  const removeAllBooks = () => {
-    BookDataService.deleteAll()
-      .then((response) => {
-        console.log(response.data);
-        refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  const searchByTitle = () => {
-    setCurrentBook(null);
-    setCurrentIndex(-1);
-
-    BookDataService.findByTitle(this.state.searchTitle)
-      .then((response) => {
-        setBooks(response.data);
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+  const newBook = () => {
+    setBook(initialBookState);
+    setSubmitted(false);
+  };
 
   return (
     <DashboardLayout>
@@ -115,18 +99,36 @@ function AddBook() {
 	    Add Book
           </ArgonTypography>
         </ArgonBox>
+	{ submitted ? (
+      <ArgonBox mt={3} mb={3} px={3} py={3} display="flex" justifyContent="center">
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}>
+          <Grid item xs={12} md={6} >
+        <ArgonBox mt={5} justifyContent="center" display="flex">
+          <ArgonTypography variant="body" color="text" >
+	    You submitted successfully!
+          </ArgonTypography>
+        </ArgonBox>
+        <ArgonBox mt={4} mb={10} justifyContent="center" display="flex" >
+          <ArgonButton color="info" size="medium" onClick={newBook} >
+            Add another Book
+          </ArgonButton>
+        </ArgonBox>
+	  </Grid>
+	</Grid>
+      </ArgonBox>
+	) : (
       <ArgonBox mt={3} mb={3} px={3} py={3} display="flex" justifyContent="center">
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}>
           <Grid item xs={12} md={6} >
       <ArgonBox component="form" role="form">
         <ArgonBox mb={2}>
-          <ArgonInput name="title" id="title" placeholder="Title" size="large" />
+          <ArgonInput name="title" id="title" placeholder="Title" size="large" onChange={handleInputChange}/>
         </ArgonBox>
         <ArgonBox mb={2}>
-          <ArgonInput name="description" id="description" placeholder="Description" size="large" />
+          <ArgonInput name="description" id="description" placeholder="Description" size="large" onChange={handleInputChange}/>
         </ArgonBox>
         <ArgonBox mt={4} mb={10} justifyContent="center" display="flex" >
-          <ArgonButton color="info" size="medium" >
+          <ArgonButton color="info" size="medium" onClick={saveBook} >
             Add
           </ArgonButton>
         </ArgonBox>
@@ -134,6 +136,7 @@ function AddBook() {
           </Grid>
 	</Grid>
       </ArgonBox>
+	) }
       </Card>
 
 

@@ -36,7 +36,7 @@ import ArgonTypography from "components/ArgonTypography";
 import typography from "assets/theme/base/typography";
 import borders from "assets/theme/base/borders";
 
-function Book({ columns, rows }) {
+function Books({ columns, rows }) {
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
 
@@ -109,7 +109,6 @@ function Book({ columns, rows }) {
             component="td"
             p={1}
             textAlign={align}
-            verticalAlign="middle"
             lineHeight={0.65}
             sx={({ palette: { light } }) => ({
               borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
@@ -149,15 +148,15 @@ function Book({ columns, rows }) {
 }
 
 // Setting default values for the props of Table
-Book.defaultProps = {
+Books.defaultProps = {
   columns: [],
   rows: [{}],
 };
 
 // Typechecking props for the Table
-Book.propTypes = {
+Books.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object),
   rows: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default Book;
+export default Books;

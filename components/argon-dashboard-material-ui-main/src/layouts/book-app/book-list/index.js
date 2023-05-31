@@ -12,6 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import PropTypes from "prop-types";
 
 import React, { useState, useEffect } from "react";
 import BookDataService from "../../../services/book.service";
@@ -25,13 +26,14 @@ import ArgonTypography from "components/ArgonTypography";
 import ArgonButton from "components/ArgonButton";
 import ArgonAvatar from "components/ArgonAvatar";
 import CardMedia from "@mui/material/CardMedia";
+import ArgonBadge from "components/ArgonBadge";
 
 // Argon Dashboard 2 MUI examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Table from "examples/Tables/Table";
-import Book from "examples/Books/Book";
+import Books from "examples/Books";
 
 import { Link } from "react-router-dom";
 
@@ -40,11 +42,20 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import booksTableData from "layouts/book-app/book-list/data/booksTableData";
 
 import nobooks from "../../../assets/images/nobooks.png";
+import cover from "../../../assets/images/not-available.png";
 
 function BookList() {
-  const { columns, rows } = booksTableData;
+
+  const columns = [
+    { name: "book", align: "left" },
+    { name: "description", align: "left" },
+    { name: "available", align: "center" },
+    { name: "action", align: "center" },
+  ];
+
 
   const [books, setBooks] = useState([]);
+  const [rows, setRows] = useState([]);
   const [currentBook, setCurrentBook] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
@@ -53,10 +64,64 @@ function BookList() {
     retrieveBooks();
   }, []);
 
+	
+  function Book({ image, title }) {
+    return (
+      <ArgonBox display="flex" alignItems="center" px={1} py={0.5}>
+        <ArgonBox mr={2}>
+          <ArgonAvatar src={image} alt={title} size="sm" variant="rounded" />
+        </ArgonBox>
+        <ArgonBox display="flex" flexDirection="column">
+          <ArgonTypography variant="button" fontWeight="medium">
+            {title}
+          </ArgonTypography>
+        </ArgonBox>
+      </ArgonBox>
+    );
+  }	
+
+  Book.propTypes = {
+    image: PropTypes.string,
+    title: PropTypes.string,
+  };
+
+  const getRows = (books) => {
+    const rows = [];
+	  console.log("length", books);
+    books.map((book) => {
+      rows.push(
+        {
+      book: <Book image={cover} title={book.title} />,
+      available: (
+        <ArgonBadge variant="gradient" badgeContent={ book.available ? "available" : "lent" } color={ book.available ? "success" : "warning" } size="xs" container />
+      ),
+      description: (
+        <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
+          {book.description} 
+        </ArgonTypography>
+      ),
+      action: (
+        <ArgonTypography
+          component="a"
+          href={ "/book-app/book-item/" + book.id }
+          variant="caption"
+          color="secondary"
+          fontWeight="medium"
+        >
+          Edit
+        </ArgonTypography>
+      ),
+	}
+      );
+    });
+    return rows;
+  }
+
   const retrieveBooks = () => {
     BookDataService.getAll()
       .then((response) => {
         setBooks(response.data);
+	setRows(getRows(response.data));
         console.log(response.data);
       })
       .catch((e) => {
@@ -100,6 +165,7 @@ function BookList() {
       });
   }
 
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -121,7 +187,7 @@ function BookList() {
                 },
               }}
             >
-              <Book columns={columns} rows={rows} />
+              <Books columns={columns} rows={rows} />
             </ArgonBox>
           </Card>
         </ArgonBox>
@@ -142,7 +208,7 @@ function BookList() {
         </ArgonButton>&nbsp;&nbsp;
         </Link>
 	{ books.length > 0 ? (
-        <ArgonButton color="error" size="large" onClick={removeAllBooks} >
+        <ArgonButton color="error" size="medium" onClick={removeAllBooks} >
           Remove All Book
         </ArgonButton>
 	) : ("")
