@@ -105,6 +105,9 @@ export function Book(props) {
               <Input id="title" label="Title" name="title" size="lg" value={currentBook.title} onChange={handleInputChange} required />
               <Input id="description" label="Description" name="description" size="lg" value={currentBook.description} onChange={handleInputChange} />
               <Input id="available" label="Availability" name="available" size="lg" value={currentBook.available} readOnly />
+              <Typography variant="h5" className="text-center">
+                {message}
+              </Typography>
             </CardBody>
             <CardFooter className="flex justify-center pt-0 gap-4">
               <Button color="green" variant="gradient" onClick={updateBook} >
