@@ -145,6 +145,11 @@ function BookItem(props) {
         <ArgonBox mb={2}>
           <ArgonInput name="available" id="available" placeholder="Availability" value={currentBook.available} size="large" readOnly />
         </ArgonBox>
+        <ArgonBox mt={5} justifyContent="center" display="flex">
+          <ArgonTypography variant="body" color="text" >
+	    {message}
+          </ArgonTypography>
+        </ArgonBox>
         <ArgonBox mt={4} mb={10} justifyContent="center" display="flex" >
           <ArgonButton color="success" size="medium" onClick={updateBook}>
             Update
