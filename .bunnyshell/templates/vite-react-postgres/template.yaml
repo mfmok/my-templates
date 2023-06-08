@@ -10,8 +10,6 @@ stack:
       version: '3'
     - name: React
       version: '17'
-    - name: Typescript
-      version: '4.4'
     - name: PostgreSQL
       version: '15.2'
 discoverable: true

@@ -5,8 +5,8 @@ components:
     -
         kind: Application
         name: api
-        gitRepo: 'https://github.com/bunnyshell/templates.git'
-        gitBranch: express-rest-api/v0.2.0
+        gitRepo: 'https://github.com/mfmok/bunnyshell-templates.git'
+        gitBranch: main
         gitApplicationPath: components/express-rest-api
         dockerCompose:
             build:
