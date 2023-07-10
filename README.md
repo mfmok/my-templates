@@ -10,6 +10,8 @@ Solution: export NODE_OPTIONS=--max-old-space-size=4096
 
 Solution: change the CORS options
 
+let frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+
 var corsOptions = { // need to strip ending slash from frontendUrl for CORS to work
 
   origin: frontendUrl.replace(/\/+$/, '')
