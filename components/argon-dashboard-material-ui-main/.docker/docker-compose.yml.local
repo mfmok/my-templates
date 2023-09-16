@@ -1,6 +1,6 @@
 version: "3"
 services:
-  app:
+  argon-app:
     container_name: argon-books-app
     build:
       context: ./../
@@ -13,7 +13,7 @@ services:
       - /usr/src/app/node_modules
     ports:
       - "8080:8080"
-  db:
+  argon-db:
     container_name: argon-books-db
     image: postgres
     restart: always
@@ -26,7 +26,7 @@ services:
       - POSTGRES_PASSWORD=need-to-replace
     expose:
       - 5432
-  api:
+  argon-api:
     container_name: argon-books-api
     build: https://github.com/my-devpost/demo-books.git#master:backend
     environment:
@@ -38,6 +38,6 @@ services:
     ports:
       - "3080:3080"
     depends_on:
-      - db
+      - argon-db
 volumes:
   db-data:
